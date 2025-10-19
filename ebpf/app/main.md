@@ -5,6 +5,12 @@ Count mutex lock functions:
 bpftrace -e 'u:/usr/lib64/libpthread.so.0:pthread_mutex_*lock { @probe = count(); } interval:s:1 { exit(); }'
 ```
 
+Currently no way to trace spinlocks with bpftrace.
+But you can funccount them:
+```
+funccount '*spin_lock*'
+```
+
 Count LLC misses per process:
 ```
 bpftrace -e 'hardware:cache-misses:1000000 {@[comm] = count(); }'
